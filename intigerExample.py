@@ -1,0 +1,5 @@
+print(int(18/9))
+print(str(18/9))
+print(float(18/9))
+print(bool(18/9))
+print(float(18*9))
