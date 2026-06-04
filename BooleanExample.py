@@ -1,0 +1,6 @@
+print(2+2 == 4)
+print(2+2 == 5)
+print(3.14*600 == 500)
+print(True or False)
+print(True and False)
+print(True and True)
