@@ -19,3 +19,8 @@ print("--------------------------------------")
 print("banana       x 2    = 1.00")
 print("apple        x 2    = 1.00")
 print("lemon        x 2    = 1.00")
+
+x = int(input("Enter Number 1 : "))
+y = int(input("Enter Number 2 : "))
+
+print(x>y)
