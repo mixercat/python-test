@@ -17,4 +17,11 @@ elif x >= 50 :
 else :    
     print("Grade F")
 
-print()
+if x >= 80 :
+    print("Excellent")
+elif x <= 50 :
+    print("Keep up the good work!")
+else :
+    print("Okay")
+
+print("The entered grade is:", x)
