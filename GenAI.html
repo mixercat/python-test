@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pride AI Prompt Challenge | TRR</title>
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <style>
+        :root {
+            --pride-rainbow: linear-gradient(90deg, #ff0000, #ff8c00, #ffeb00, #008000, #0000ff, #4b0082, #ee82ee);
+            --glass-bg: rgba(15, 23, 42, 0.75);
+            --input-bg: rgba(255, 255, 255, 0.1);
+        }
+
+        body {
+            font-family: 'Kanit', sans-serif;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), 
+                        url('https://lh3.googleusercontent.com/d/1SAsl9M6M6yX9qS3Y3L6PzB0E6C9r3B7W') no-repeat center center fixed;
+            background-size: cover;
+            color: white;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 500px;
+            background: var(--glass-bg);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border-radius: 24px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 40px 30px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 6px;
+            background: var(--pride-rainbow);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            font-size: 28px;
+            margin: 0 0 10px 0;
+            background: #fff;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background: var(--pride-rainbow);
+            -webkit-background-clip: text;
+        }
+
+        .header p {
+            font-size: 14px;
+            color: #cbd5e1;
+            line-height: 1.6;
+            font-weight: 300;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 14px;
+            color: #94a3b8;
+            margin-left: 5px;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 12px 15px;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: var(--input-bg);
+            color: white;
+            font-family: 'Kanit', sans-serif;
+            font-size: 16px;
+            box-sizing: border-box;
+            transition: all 0.3s;
+        }
+
+        input:focus, select:focus {
+            outline: none;
+            border-color: #ee82ee;
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        option {
+            background-color: #1e293b;
+            color: white;
+        }
+
+        .file-upload {
+            border: 2px dashed rgba(255, 255, 255, 0.2);
+            padding: 20px;
+            text-align: center;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .file-upload:hover {
+            border-color: #ee82ee;
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .file-upload i {
+            font-size: 30px;
+            margin-bottom: 10px;
+            color: #ee82ee;
+        }
+
+        .btn-submit {
+            width: 100%;
+            padding: 15px;
+            border: none;
+            border-radius: 12px;
+            background: var(--pride-rainbow);
+            color: white;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s, opacity 0.2s;
+            margin-top: 10px;
+            font-family: 'Kanit', sans-serif;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .btn-submit:active {
+            transform: scale(0.98);
+        }
+
+        .btn-submit:hover {
+            opacity: 0.9;
+        }
+
+        #preview-container img {
+            max-width: 100%;
+            border-radius: 10px;
+            margin-top: 15px;
+            display: none;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .loading-overlay {
+            display: none;
+            text-align: center;
+            margin-top: 10px;
+            font-size: 14px;
+            color: #ee82ee;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">
+        <h1>📸 Pride AI Prompt Challenge</h1>
+        <p>ร่วมเป็นส่วนหนึ่งของการเฉลิมฉลอง Pride Month<br>ผ่านพลังแห่งความคิดสร้างสรรค์และ AI ในธีม "Proud to Be Me"</p>
+    </div>
+
+    <div class="form-group">
+        <label><i class="fa-solid fa-id-card"></i> รหัสพนักงาน</label>
+        <input type="text" id="emp_id" placeholder="เช่น 123456">
+    </div>
+
+    <div class="form-group">
+        <label><i class="fa-solid fa-user"></i> ชื่อเล่น</label>
+        <input type="text" id="nickname" placeholder="ระบุชื่อเล่นของคุณ">
+    </div>
+
+    <div class="form-group">
+        <label><i class="fa-solid fa-users"></i> ฝ่าย / แผนก</label>
+        <select id="department">
+            <option value="" disabled selected>เลือกฝ่ายของคุณ</option>
+            <option value="สำนักผู้บริหาร">1. สำนักผู้บริหาร</option>
+            <option value="บัญชี">2. บัญชี</option>
+            <option value="ทรัพยากรบุคคล">3. ทรัพยากรบุคคล</option>
+            <option value="เทคโนโลยีสารสนเทศ">4. เทคโนโลยีสารสนเทศ</option>
+            <option value="การตลาด">5. การตลาด</option>
+            <option value="บริหารการเงิน และงบประมาณ">6. บริหารการเงิน และงบประมาณ</option>
+            <option value="พัฒนางานตรวจสอบ">7. พัฒนางานตรวจสอบ</option>
+            <option value="จัดซื้อจัดหา">8. จัดซื้อจัดหา</option>
+            <option value="อาคารสถานที่">9. อาคารสถานที่</option>
+            <option value="Business Development and Sustainability">10. Business Development and Sustainability</option>
+            <option value="Corporate Affairs, Legal, Compliance & Communication">11. Corporate Affairs, Legal, Compliance & Communication</option>
+            <option value="Corporate Strategy & Internal Control">12. Corporate Strategy & Internal Control</option>
+            <option value="Domestic Retail Sales">13. Domestic Retail Sales</option>
+            <option value="Regional Sales">14. Regional Sales</option>
+            <option value="R&D and Innovation">15. R&D and Innovation</option>
+            <option value="Supply Chain & Operational Excellence">16. Supply Chain & Operational Excellence</option>
+            <option value="ขายต่างประเทศ">17. ขายต่างประเทศ</option>
+            <option value="TRR Green Plus">18. TRR Green Plus</option>
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label><i class="fa-solid fa-image"></i> ภาพจาก GenAI (ธีม Proud to Be Me)</label>
+        <div class="file-upload" onclick="document.getElementById('image_file').click()">
+            <i class="fa-solid fa-cloud-arrow-up"></i>
+            <p id="file-text" style="margin:0; font-size: 14px;">คลิกเพื่อเลือกรูปภาพ</p>
+        </div>
+        <input type="file" id="image_file" accept="image/*" style="display: none;" onchange="previewImage(this)">
+        <div id="preview-container">
+            <img id="image-preview" src="">
+        </div>
+    </div>
+
+    <button class="btn-submit" onclick="submitWork()">ส่งผลงานเข้าร่วม Challenge</button>
+    
+    <div class="loading-overlay" id="loading">
+        <i class="fas fa-spinner fa-spin"></i> กำลังส่งผลงาน...
+    </div>
+</div>
+
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.18.0/firebase-app.js";
+    import { getDatabase, ref, push } from "https://www.gstatic.com/firebasejs/9.18.0/firebase-database.js";
+
+    // --- Firebase Configuration ---
+    const firebaseConfig = {
+      apiKey: "AIzaSyA1Mq_FSB2v6JlP_1W_DwHXuGhIWcGYeS4",
+      authDomain: "nambeauty-806e4.firebaseapp.com",
+      databaseURL: "https://nambeauty-806e4-default-rtdb.asia-southeast1.firebasedatabase.app",
+      projectId: "nambeauty-806e4",
+      storageBucket: "nambeauty-806e4.firebasestorage.app",
+      messagingSenderId: "222339820959",
+      appId: "1:222339820959:web:149865d67e6f327a69a1aa",
+      measurementId: "G-NK6001888Z"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getDatabase(app);
+
+    window.previewImage = function(input) {
+        const preview = document.getElementById('image-preview');
+        const fileText = document.getElementById('file-text');
+        if (input.files && input.files[0]) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                preview.src = e.target.result;
+                preview.style.display = 'block';
+                fileText.innerText = "เปลี่ยนรูปภาพ";
+            }
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+
+    window.submitWork = async function() {
+        const empId = document.getElementById('emp_id').value;
+        const nickname = document.getElementById('nickname').value;
+        const department = document.getElementById('department').value;
+        const imageFile = document.getElementById('image_file').files[0];
+
+        if (!empId || !nickname || !department || !imageFile) {
+            Swal.fire({ icon: 'warning', title: 'ข้อมูลไม่ครบ', text: 'กรุณากรอกข้อมูลและเลือกรูปภาพให้ครบถ้วนครับ' });
+            return;
+        }
+
+        document.getElementById('loading').style.display = 'block';
+
+        try {
+            const reader = new FileReader();
+            reader.readAsDataURL(imageFile);
+            reader.onload = async function() {
+                const imageUrl = reader.result;
+
+                // 1. บันทึกลง Firebase Realtime Database
+                await push(ref(db, 'photo_contest'), {
+                    emp_id: empId,
+                    nickname: nickname,
+                    department: department,
+                    image_url: imageUrl,
+                    vote_count: 0,
+                    timestamp: Date.now()
+                });
+
+                // 2. ส่งข้อมูลไป Make.com (เพื่อเข้า Excel)
+                const makeWebhookUrl = "https://hook.us2.make.com/7on038da3moxwnuyyhwiuccsdhp6qrct"; 
+                await fetch(makeWebhookUrl, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                        emp_id: empId,
+                        nickname: nickname,
+                        department: department,
+                        image_url: imageUrl
+                    })
+                });
+
+                document.getElementById('loading').style.display = 'none';
+                Swal.fire({
+                    icon: 'success',
+                    title: 'ส่งผลงานสำเร็จ!',
+                    text: 'ขอบคุณที่ร่วมเป็นส่วนหนึ่งของ Pride AI Challenge ครับ',
+                    confirmButtonColor: '#ee82ee'
+                }).then(() => {
+                    location.reload();
+                });
+            };
+        } catch (error) {
+            console.error(error);
+            document.getElementById('loading').style.display = 'none';
+            Swal.fire({ icon: 'error', title: 'เกิดข้อผิดพลาด', text: 'ไม่สามารถส่งข้อมูลได้ กรุณาลองใหม่อีกครั้ง' });
+        }
+    }
+</script>
+
+</body>
+</html>
