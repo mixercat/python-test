@@ -1,4 +1,4 @@
-for y in range(2, 13):
-    print(f"\n--- สูตรคูณ {y} ---")
-    for x in range(1, 13):
-        print(f"{y} × {x} = {y*x}")
+x = int(input("enter a number"))
+for i in range(1,x+1):
+    print(i)
+    print(i*"*")
