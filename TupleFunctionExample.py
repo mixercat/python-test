@@ -1,0 +1,6 @@
+num1 = (1,2,3,4,5)
+num2 = (1,2,3,4,5,6,7,8,9,10,11,12,13,2000)
+print(len(num2))
+print(max(num2))
+print(tuple(num2))
+print(num2.index(11))
