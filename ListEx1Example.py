@@ -1,12 +1,10 @@
 menulist = []
-pricelist = []
 
 def showbill() :
     print("---- My Food ----")
     for number in range(len(menulist)) :
-        print(menulist[number],":",pricelist[number])
-    print("-----------------")
-    return total(price)
+        print(menulist[number][0], menulist[number][1])
+    return total(menuprice)
 
 def total(price) :
     print("VAT 7%")
@@ -19,8 +17,7 @@ while True :
     if menuname.lower() == "stop" :
         break
     else :
-        price = int(input("Enter price :"))
-        menulist.append(menuname)
-        pricelist.append(price)
+        menuprice = int(input("Enter price :"))
+        menulist.append([menuname,menuprice])
 
 showbill()
