@@ -1,0 +1,8 @@
+name,Favorite Movie,animal
+Mae,Star wars,Dog
+Aum,LOL,Dog
+Mark,Fast10,Cat
+Mix,Star wars,Cat
+Cap,Valorant,Chicken
+Yus,Smile2,Pig
+purk,Star wars,Cat
